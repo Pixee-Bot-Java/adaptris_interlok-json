@@ -14,6 +14,7 @@
 package com.adaptris.core.transform.json;
 
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 
 import java.io.BufferedReader;
@@ -374,7 +375,7 @@ class XMLSerializer {
       StringBuffer xml = new StringBuffer();
       BufferedReader in = new BufferedReader(new InputStreamReader(stream));
       String line = null;
-      while ((line = in.readLine()) != null) {
+      while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null) {
         xml.append(line);
       }
       return read(xml.toString());
